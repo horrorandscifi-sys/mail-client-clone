@@ -15,11 +15,18 @@
         </ul>
     </div>
     <div class="main">
-        <div class="header">Поиск писем...</div>
-        <div class="email-list" id="list">
-            <!-- Письма появятся здесь -->
-        </div>
+      <div class="main">
+    <div class="header">Входящие</div>
+    <div class="email-list" id="list">
+        <!-- Сюда ИИ будет "присылать" письма -->
     </div>
+    
+    <!-- Форма ответа -->
+    <div class="reply-box">
+        <textarea id="user-input" placeholder="Напишите ответ..."></textarea>
+        <button onclick="sendMessage()">Отправить ИИ</button>
+    </div>
+</div> 
     <script src="script.js"></script>
 </body>
 </html>
