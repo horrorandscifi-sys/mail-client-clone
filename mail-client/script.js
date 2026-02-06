@@ -1,27 +1,36 @@
-async function askAI(userMessage) {
-    const response = await fetch('https://api.openai.com', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ВАШ_API_КЛЮЧ' // Опасно на GitHub!
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{role: "user", content: `Ответь на письмо как реальный человек: ${userMessage}`}]
-        })
-    });
-    const data = await response.json();
-    return data.choices[0].message.content;
+const list = document.getElementById('list');
+
+function addEmail(sender, text) {
+    const html = `
+        <div class="email-item">
+            <strong>${sender}:</strong> ${text}
+        </div>`;
+    list.innerHTML += html;
+    list.scrollTop = list.scrollHeight; // Прокрутка вниз
 }
 
-// Вызов функции при нажатии кнопки "Отправить"
-async function handleReply() {
-    const text = document.querySelector('#reply-text').value;
-    const aiResponse = await askAI(text);
+// Начальное письмо
+addEmail("GitHub Bot", "Привет! Я твой ИИ-собеседник. Напиши мне что-нибудь.");
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const message = input.value;
     
-    // Добавляем ответ ИИ в список писем
-    document.getElementById('list').innerHTML += `
-        <div class="email-item">
-            <strong>ИИ-собеседник:</strong> ${aiResponse}
-        </div>`;
+    if(!message) return;
+
+    // 1. Отображаем ваш ответ
+    addEmail("Вы", message);
+    input.value = ''; // Очистить поле
+
+    // 2. Имитация "ИИ думает"
+    addEmail("ИИ", "Печатает...");
+
+    // 3. Тут будет запрос к ИИ. Пока просто имитируем ответ:
+    setTimeout(() => {
+        // Удаляем надпись "Печатает..." (последний элемент)
+        const items = document.querySelectorAll('.email-item');
+        items[items.length - 1].remove();
+        
+        addEmail("ИИ-собеседник", "Я получил твое сообщение: '" + message + "'. Это очень интересно!");
+    }, 1500);
 }
